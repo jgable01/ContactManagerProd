@@ -1,0 +1,30 @@
+@model List<ContactManager.Models.Business>
+
+<h2>Businesses</h2>
+
+<p>
+    <a href="/Business/Create">Create New</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>Business Name</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var business in Model)
+    {
+        <tr>
+            <td>@business.BusinessName</td>
+            <td>@business.PhoneNumber</td>
+            <td>@business.Email</td>
+            <td>
+                <a href="/Business/Details/@business.BusinessID">Details</a> |
+                <a href="/Business/Edit/@business.BusinessID">Edit</a> |
+                <a href="/Business/Delete/@business.BusinessID">Delete</a>
+            </td>
+        </tr>
+    }
+</table>

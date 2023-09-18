@@ -1,0 +1,104 @@
+@model ContactManager.Models.Person
+
+<h2>Person Details</h2>
+
+<dl class="dl-horizontal">
+    <dt>First Name:</dt>
+    <dd>@Model.FirstName</dd>
+
+    <dt>Last Name:</dt>
+    <dd>@Model.LastName</dd>
+
+    <dt>Email:</dt>
+    <dd>@Model.Email</dd>
+
+    <dt>Phone Number:</dt>
+    <dd>@Model.PhoneNumber</dd>
+</dl>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.PersonID" class="btn btn-secondary">Edit</a> |
+    <a asp-action="Create" asp-controller="Person" class="btn btn-primary">Create New Person</a> |
+    <a asp-action="Index" asp-controller="Person" class="btn btn-info">Back to List</a>
+</p>
+
+<h3>Associated Businesses</h3>
+<ul>
+    @foreach (var businessPerson in Model.BusinessPeople)
+    {
+        <li>
+            <a asp-action="Details" asp-controller="Business" asp-route-id="@businessPerson.Business.BusinessID">@businessPerson.Business.BusinessName</a>
+
+            <!-- Form for removing association -->
+            <form method="post" asp-action="DissociateBusiness" asp-controller="Person" style="display:inline;">
+                <input type="hidden" name="PersonID" value="@Model.PersonID" />
+                <input type="hidden" name="selectedBusinessId" value="@businessPerson.Business.BusinessID" />
+                <button type="submit" class="btn btn-outline-danger">Remove</button>
+            </form>
+        </li>
+    }
+</ul>
+
+
+<!-- Form to associate an existing business with the person -->
+<h3>Associate Existing Business</h3>
+<form method="post" asp-action="AssociateBusiness" asp-controller="Person">
+    <!-- Dropdown to select existing businesses -->
+    <select name="selectedBusinessId">
+        @if (ViewData["AllBusinesses"] != null)
+        {
+            foreach (var business in ViewData["AllBusinesses"] as List<ContactManager.Models.Business>)
+            {
+                <option value="@business.BusinessID">@business.BusinessName</option>
+            }
+        }
+    </select>
+
+    <button type="submit" class="btn btn-outline-primary">Associate Selected Business</button>
+    <input type="hidden" asp-for="PersonID" />
+</form>
+
+<a asp-action="Create" asp-controller="Business" class="btn btn-outline-success" asp-route-PersonId="@Model.PersonID">Add New Business</a>
+
+
+
+<h3>Associated Addresses</h3>
+<ul>
+    @foreach (var addressPerson in Model.AddressPeople)
+    {
+        <li>
+            <a asp-action="Details" asp-controller="Address" asp-route-id="@addressPerson.Address.AddressID">@addressPerson.Address.StreetName, @addressPerson.Address.StreetNumber</a>
+
+            <!-- Form for removing association -->
+            <form method="post" asp-action="DissociateAddress" asp-controller="Person" style="display:inline;">
+                <input type="hidden" name="PersonID" value="@Model.PersonID" />
+                <input type="hidden" name="selectedAddressId" value="@addressPerson.Address.AddressID" />
+                <button type="submit" class="btn btn-outline-danger">Remove</button>
+            </form>
+        </li>
+    }
+</ul>
+
+
+<!-- Form to associate an existing address with the person -->
+<h3>Associate Existing Address</h3>
+<form method="post" asp-action="AssociateAddress" asp-controller="Person">
+    <!-- Dropdown to select existing addresses -->
+    <select name="selectedAddressId">
+        @if (ViewData["AllAddresses"] != null)
+        {
+            foreach (var address in ViewData["AllAddresses"] as List<ContactManager.Models.Address>)
+            {
+                <option value="@address.AddressID">@address.StreetName, @address.StreetNumber</option>
+            }
+        }
+    </select>
+
+    <button type="submit" class="btn btn-outline-primary">Associate Selected Address</button>
+    <input type="hidden" asp-for="PersonID" />
+</form>
+
+<a asp-action="Create" asp-controller="Address" class="btn btn-outline-success" asp-route-PersonId="@Model.PersonID">Add New Address</a>
+
+
+

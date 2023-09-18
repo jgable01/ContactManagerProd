@@ -1,0 +1,42 @@
+@model ContactManager.Models.Business
+
+<h2>Create New Business</h2>
+
+<form asp-action="Create" asp-controller="Business" method="post">
+    @if (ViewBag.AddressId != null || ViewBag.PersonId != null)
+    {
+        <input type="hidden" name="PersonId" value="@ViewBag.PersonId" />
+        <input type="hidden" name="AddressId" value="@ViewBag.AddressId" />
+    }
+
+    <div class="form-group">
+        <label asp-for="BusinessName">Business Name</label>
+        <input asp-for="BusinessName" class="form-control" />
+        <span asp-validation-for="BusinessName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber">Phone Number</label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<a asp-action="Index">Back to List</a>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
