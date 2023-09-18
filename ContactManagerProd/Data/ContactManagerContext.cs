@@ -45,7 +45,7 @@ namespace ContactManager.Data
             };
 
             // Seed Persons from CSV
-            using (var reader = new StreamReader(@"./Persons.csv"))
+            using (var reader = new StreamReader(@"https://contactmanagerprod.azurewebsites.net/Persons.csv"))
             using (var csv = new CsvReader(reader, config))
             {
                 // Read all records
@@ -54,7 +54,7 @@ namespace ContactManager.Data
             }
 
             // Seed Businesses from CSV
-            using (var reader = new StreamReader(@"./Businesses.csv"))
+            using (var reader = new StreamReader(@"https://contactmanagerprod.azurewebsites.net/Businesses.csv"))
             using (var csv = new CsvReader(reader, config))
             {
                 var businesses = csv.GetRecords<Business>().ToList();
@@ -64,7 +64,7 @@ namespace ContactManager.Data
 
 
             // Seed Addresses from CSV
-            using (var reader = new StreamReader(@"./Addresses.csv"))
+            using (var reader = new StreamReader(@"https://contactmanagerprod.azurewebsites.net/Addresses.csv"))
             using (var csv = new CsvReader(reader, config))
             {   
                 csv.Context.RegisterClassMap<AddressMap>();
