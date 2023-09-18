@@ -8,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
 builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+
+
+
 // Testing Development Branch
 
 builder.Services.AddDbContext<ContactManagerContext>(options =>
