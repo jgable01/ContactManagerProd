@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ContactManager.Data;
 using Azure.Identity;
 using Microsoft.Extensions.FileProviders;
-// Testing Development Branch
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +10,6 @@ var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
 builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 
 
-
-// Testing Development Branch
 
 builder.Services.AddDbContext<ContactManagerContext>(options =>
 {
