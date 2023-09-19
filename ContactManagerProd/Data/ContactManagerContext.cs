@@ -45,7 +45,7 @@ namespace ContactManager.Data
             };
 
             // Seed Persons from CSV
-            using (var reader = new StreamReader(@"wwwroot/DataFiles/Addresses.csv"))
+            using (var reader = new StreamReader(@"wwwroot/DataFiles/Persons.csv"))
             using (var csv = new CsvReader(reader, config))
             {
                 // Read all records
@@ -55,7 +55,6 @@ namespace ContactManager.Data
 
             // Seed Businesses from CSV
             using (var reader = new StreamReader(@"wwwroot/DataFiles/Businesses.csv"))
-
             using (var csv = new CsvReader(reader, config))
             {
                 var businesses = csv.GetRecords<Business>().ToList();
@@ -63,11 +62,10 @@ namespace ContactManager.Data
             }
             context.SaveChanges();
 
-
             // Seed Addresses from CSV
-            using (var reader = new StreamReader(@"wwwroot/DataFiles/Persons.csv"))
+            using (var reader = new StreamReader(@"wwwroot/DataFiles/Addresses.csv"))
             using (var csv = new CsvReader(reader, config))
-            {   
+            {
                 csv.Context.RegisterClassMap<AddressMap>();
                 var addresses = csv.GetRecords<Address>().ToList();
                 // assign the addresses to the businesses
@@ -76,10 +74,11 @@ namespace ContactManager.Data
                     if (address.BusinessID != null)
                     {
                         address.Business = context.Business.Find(address.BusinessID);
-                    } 
+                    }
                 }
                 context.Address.AddRange(addresses);
             }
+
 
             // Save changes to the database
             context.SaveChanges();
