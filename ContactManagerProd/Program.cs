@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ContactManager.Data;
 using Azure.Identity;
+using Microsoft.Extensions.FileProviders;
 // Testing Development Branch
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +38,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "DataFiles")),
+    RequestPath = "/DataFiles"
+});
 
 app.UseRouting();
 
