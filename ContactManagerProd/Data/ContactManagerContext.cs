@@ -23,10 +23,11 @@ namespace ContactManager.Data
         public void Seed(ContactManagerContext context)
         {
 
-            // Clear existing data
-            context.Address.RemoveRange(context.Address);
-            context.Business.RemoveRange(context.Business);
-            context.Person.RemoveRange(context.Person);
+        // Cancel if database already seeded
+        if (context.Person.Count() > 0)
+            {
+                  return;
+            }
 
             // start ids at 1
             context.Database.ExecuteSqlRaw("DBCC CHECKIDENT('[Address]', RESEED, 0)");
@@ -79,11 +80,8 @@ namespace ContactManager.Data
                 context.Address.AddRange(addresses);
             }
 
-
             // Save changes to the database
             context.SaveChanges();
-
-
 
         }
 
