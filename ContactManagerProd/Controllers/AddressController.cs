@@ -185,16 +185,13 @@ namespace ContactManager.Controllers
         {
             if (_context.Address == null)
             {
-                return Problem("Entity set 'ContactManagerContext.Address'  is null.");
-            }
-            var address = await _context.Address.FindAsync(id);
-            if (address != null)
-            {
+                    return NotFound();
+                }
+    
+                var address = await _context.Address.FindAsync(id);
                 _context.Address.Remove(address);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]

@@ -165,18 +165,10 @@ namespace ContactManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Business == null)
-            {
-                return Problem("Entity set 'ContactManagerContext.Business'  is null.");
-            }
             var business = await _context.Business.FindAsync(id);
-            if (business != null)
-            {
                 _context.Business.Remove(business);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]

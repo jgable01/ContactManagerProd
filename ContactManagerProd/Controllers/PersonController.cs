@@ -158,6 +158,7 @@ namespace ContactManager.Controllers
         // GET: People/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+
             if (id == null || _context.Person == null)
             {
                 return NotFound();
@@ -178,18 +179,15 @@ namespace ContactManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Person == null)
+            Person person = await _context.Person.FindAsync(id);
+                if (person == null)
             {
-                return Problem("Entity set 'ContactManagerContext.Person'  is null.");
-            }
-            var person = await _context.Person.FindAsync(id);
-            if (person != null)
-            {
+                    return NotFound();
+                }
+    
                 _context.Person.Remove(person);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
