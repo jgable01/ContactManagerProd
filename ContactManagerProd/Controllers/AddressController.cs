@@ -181,7 +181,7 @@ namespace ContactManager.Controllers
         // POST: Addresses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var address = await _context.Address.FindAsync(id);
 

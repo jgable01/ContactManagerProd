@@ -163,7 +163,7 @@ namespace ContactManager.Controllers
         // POST: Businesses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var business = await _context.Business.FindAsync(id);
 
