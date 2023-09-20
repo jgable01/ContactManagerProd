@@ -166,9 +166,22 @@ namespace ContactManager.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var business = await _context.Business.FindAsync(id);
-                _context.Business.Remove(business);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+            if (business == null)
+            {
+                return NotFound();
+            }
+
+            // Remove any associated addresses for the business
+            var associatedAddresses = _context.Address.Where(a => a.BusinessID == id);
+            foreach (var address in associatedAddresses)
+            {
+                address.BusinessID = null;
+            }
+
+            _context.Business.Remove(business);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]

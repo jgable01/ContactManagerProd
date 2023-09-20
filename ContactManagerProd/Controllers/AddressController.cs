@@ -183,16 +183,27 @@ namespace ContactManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Address == null)
+            var address = await _context.Address.FindAsync(id);
+
+            if (address == null)
             {
-                    return NotFound();
+                return NotFound();
+            }
+
+            if (address.BusinessID.HasValue)
+            {
+                var business = await _context.Business.FindAsync(address.BusinessID.Value);
+                if (business != null)
+                {
+                    business.Addresses.Remove(address);
                 }
-    
-                var address = await _context.Address.FindAsync(id);
-                _context.Address.Remove(address);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            }
+
+            _context.Address.Remove(address);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+
 
         [HttpPost]
         public IActionResult AssociatePerson(int AddressID, int selectedPersonId)
